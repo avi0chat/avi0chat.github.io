@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviral Chaturvedi</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0A0F1E;
+    --navy-mid: #0D1528;
+    --navy-card: #111827;
+    --navy-border: #1E2D4A;
+    --cyan: #00C8F0;
+    --cyan-dim: rgba(0,200,240,0.12);
+    --amber: #F59E0B;
+    --amber-dim: rgba(245,158,11,0.12);
+    --white: #F0F4FF;
+    --muted: #8B9BB4;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+    --display: 'Space Grotesk', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4rem;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cyan); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* P&ID flow diagram background — the signature element */
+  .pid-canvas {
+    position: absolute; inset: 0;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 760px; }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+  }
+  h1 .accent { color: var(--cyan); }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--navy-border);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .stat-num {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+    line-height: 1.25;
+  }
+  .stat-num .unit { color: var(--cyan); font-size: 1.1rem; }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--navy);
+  }
+  .btn-primary:hover { background: #22D4F8; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--navy-border);
+  }
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 4rem; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+    color: var(--white);
+  }
+  h2 .dim { color: var(--muted); font-weight: 400; }
+
+  .divider {
+    width: 100%; height: 1px;
+    background: var(--navy-border);
+    margin: 0 4rem;
+    width: calc(100% - 8rem);
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p { color: var(--muted); margin-bottom: 1.25rem; line-height: 1.8; }
+  .about-text p strong { color: var(--white); font-weight: 500; }
+
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--navy-border);
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  .tag.cyan { border-color: rgba(0,200,240,0.4); color: var(--cyan); background: var(--cyan-dim); }
+  .tag.amber { border-color: rgba(245,158,11,0.4); color: var(--amber); background: var(--amber-dim); }
+
+  .quick-facts { display: flex; flex-direction: column; gap: 1rem; }
+  .fact {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+  }
+  .fact-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .fact-label { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); letter-spacing: 0.05em; }
+  .fact-val { font-size: 0.95rem; color: var(--white); font-weight: 500; margin-top: 0.15rem; }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 0;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .timeline-dot {
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    background: var(--navy);
+    margin-top: 4px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .timeline-dot.amber { border-color: var(--amber); }
+
+  .exp-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .exp-card:hover { border-color: rgba(0,200,240,0.3); }
+
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+  .exp-role { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--white); }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--navy-border);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .exp-company { font-size: 0.875rem; color: var(--cyan); margin-bottom: 1rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.65;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--cyan);
+    font-size: 0.8rem;
+  }
+  .exp-bullets strong { color: var(--white); font-weight: 500; }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+    text-decoration: none;
+  }
+  .project-card:hover {
+    border-color: rgba(0,200,240,0.35);
+    transform: translateY(-3px);
+  }
+  .project-card.amber-hover:hover { border-color: rgba(245,158,11,0.35); }
+
+  .project-track {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--cyan);
+  }
+  .project-track.amber { color: var(--amber); }
+
+  .project-title {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-metrics {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .metric-pill {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    border: 1px solid rgba(0,200,240,0.25);
+  }
+  .metric-pill.amber {
+    background: var(--amber-dim);
+    color: var(--amber);
+    border-color: rgba(245,158,11,0.25);
+  }
+
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .stack-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    border: 1px solid var(--navy-border);
+  }
+
+  .project-link-row {
+    display: flex; gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .project-link {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: color 0.2s;
+  }
+  .project-link:hover { color: var(--cyan); }
+  .project-link svg { width: 14px; height: 14px; }
+
+  .badge-conf {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 4px;
+    background: rgba(245,158,11,0.1);
+    color: var(--amber);
+    border: 1px solid rgba(245,158,11,0.3);
+    margin-bottom: 1rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  .skill-group {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+  }
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.75rem;
+  }
+  .skill-group-title.amber { color: var(--amber); }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-item {
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding: 0.2rem 0;
+  }
+  .skill-item::after { content: ' ·'; color: var(--navy-border); }
+  .skill-item:last-child::after { content: ''; }
+
+  /* ── LEADERSHIP ── */
+  .leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .leadership-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .leadership-title { font-family: var(--display); font-weight: 600; font-size: 1rem; color: var(--white); margin-bottom: 0.25rem; }
+  .leadership-org { font-size: 0.82rem; color: var(--cyan); margin-bottom: 1rem; }
+  .leadership-bullets { list-style: none; }
+  .leadership-bullets li { font-size: 0.85rem; color: var(--muted); padding: 0.25rem 0; padding-left: 1.1rem; position: relative; }
+  .leadership-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--cyan); }
+
+  /* ── ACHIEVEMENTS ── */
+  .achievements { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .achievement {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    flex: 1; min-width: 260px;
+  }
+  .achievement-icon { font-size: 1.5rem; }
+  .achievement-text { font-size: 0.9rem; color: var(--white); font-weight: 500; }
+  .achievement-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    text-align: center;
+    padding: 5rem 4rem 6rem;
+    background: var(--navy-mid);
+    border-top: 1px solid var(--navy-border);
+  }
+  .contact-section h2 { margin-bottom: 1rem; }
+  .contact-section p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+  /* ── P&ID SVG animation ── */
+  @keyframes flowPulse {
+    0%, 100% { stroke-dashoffset: 0; }
+    50% { stroke-dashoffset: -40; }
+  }
+  .flow-line {
+    stroke-dasharray: 8 6;
+    animation: flowPulse 3s linear infinite;
+  }
+  @keyframes nodePulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  /* ── WRITING ── */
+  .paper-card {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .paper-card:hover { border-color: rgba(0,200,240,0.35); }
+  .paper-icon {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    background: var(--cyan-dim);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan);
+    font-size: 1.3rem;
+  }
+  .paper-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--white); margin-bottom: 0.35rem; }
+  .paper-meta { font-size: 0.8rem; color: var(--cyan); font-family: var(--mono); margin-bottom: 0.6rem; }
+  .paper-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    section { padding: 3rem 1.5rem; }
+    .divider { margin: 0 1.5rem; width: calc(100% - 3rem); }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .contact-section { padding: 3rem 1.5rem 4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-line { animation: none; }
+    .btn:hover { transform: none; }
+    .project-card:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Aviral<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+
+  <!-- P&ID background — the signature element -->
+  <svg class="pid-canvas" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#00C8F0" stroke-width="1.5">
+      <!-- horizontal main lines -->
+      <line class="flow-line" x1="0" y1="200" x2="300" y2="200"/>
+      <line class="flow-line" x1="400" y1="200" x2="700" y2="200" style="animation-delay:0.5s"/>
+      <line class="flow-line" x1="800" y1="200" x2="1200" y2="200" style="animation-delay:1s"/>
+      <line class="flow-line" x1="0" y1="480" x2="250" y2="480" style="animation-delay:1.5s"/>
+      <line class="flow-line" x1="350" y1="480" x2="600" y2="480" style="animation-delay:0.8s"/>
+      <line class="flow-line" x1="700" y1="480" x2="1000" y2="480" style="animation-delay:0.3s"/>
+      <line class="flow-line" x1="1100" y1="480" x2="1200" y2="480" style="animation-delay:1.2s"/>
+      <!-- vertical connectors -->
+      <line class="flow-line" x1="350" y1="200" x2="350" y2="480" style="animation-delay:0.7s"/>
+      <line class="flow-line" x1="650" y1="200" x2="650" y2="350" style="animation-delay:0.2s"/>
+      <line class="flow-line" x1="950" y1="200" x2="950" y2="480" style="animation-delay:1.1s"/>
+      <line class="flow-line" x1="200" y1="480" x2="200" y2="600" style="animation-delay:0.4s"/>
+      <line class="flow-line" x1="850" y1="350" x2="850" y2="200" style="animation-delay:0.9s"/>
+      <!-- branch lines -->
+      <line class="flow-line" x1="550" y1="200" x2="550" y2="120" style="animation-delay:0.6s"/>
+      <line class="flow-line" x1="1050" y1="480" x2="1050" y2="580" style="animation-delay:1.3s"/>
+    </g>
+    <!-- instrument circles -->
+    <g fill="none" stroke="#00C8F0" stroke-width="1.5">
+      <circle cx="350" cy="200" r="20" style="animation: nodePulse 2.5s ease-in-out infinite;"/>
+      <circle cx="700" cy="200" r="20" style="animation: nodePulse 2.5s ease-in-out infinite; animation-delay:0.8s"/>
+      <circle cx="950" cy="200" r="20" style="animation: nodePulse 2.5s ease-in-out infinite; animation-delay:0.3s"/>
+      <circle cx="300" cy="480" r="20" style="animation: nodePulse 2.5s ease-in-out infinite; animation-delay:1.2s"/>
+      <circle cx="650" cy="480" r="20" style="animation: nodePulse 2.5s ease-in-out infinite; animation-delay:0.5s"/>
+      <circle cx="1050" cy="480" r="20" style="animation: nodePulse 2.5s ease-in-out infinite; animation-delay:0.9s"/>
+    </g>
+    <!-- valve symbols (diamond shape) -->
+    <g fill="rgba(0,200,240,0.15)" stroke="#00C8F0" stroke-width="1.5">
+      <polygon points="550,90 570,120 550,150 530,120" style="animation: nodePulse 3s ease-in-out infinite; animation-delay:0.4s"/>
+      <polygon points="200,450 220,480 200,510 180,480" style="animation: nodePulse 3s ease-in-out infinite; animation-delay:1s"/>
+      <polygon points="850,320 870,350 850,380 830,350" style="animation: nodePulse 3s ease-in-out infinite; animation-delay:0.6s"/>
+    </g>
+    <!-- measurement labels (tiny, decorative) -->
+    <g fill="#00C8F0" font-size="10" font-family="JetBrains Mono, monospace" opacity="0.5">
+      <text x="358" y="204">FIC</text>
+      <text x="708" y="204">PIC</text>
+      <text x="958" y="204">TIC</text>
+      <text x="308" y="484">FCV</text>
+      <text x="658" y="484">PSV</text>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Chemical Engineering · Data Analytics</div>
+    <h1>Process thinking,<br><span class="accent">data-driven</span> results.</h1>
+    <p class="hero-sub">
+      B.Tech Chemical Engineering at DTU. I model industrial systems and build analytics pipelines —
+      from PSA hydrogen units at Reliance to energy optimization frameworks presented at ICT Mumbai.
+    </p>
+
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">9.12</span>
+        <span class="stat-label">CGPA · DTU</span>
+      </div>
+      <div>
+        <span class="stat-num">Reliance · GAIL · SMS</span>
+        <span class="stat-label">Core Engineering Internships</span>
+      </div>
+      <div>
+        <span class="stat-num">2</span>
+        <span class="stat-label">Societies Led as President</span>
+      </div>
+      <div>
+        <span class="stat-num">Asian Regional Winner</span>
+        <span class="stat-label">Space Settlement Design – NASA (2021)</span>
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="mailto:aviralchaturvedi_23pe017@dtu.ac.in" class="btn btn-primary">Get in touch</a>
+      <a href="https://github.com/avi0chat" target="_blank" rel="noopener" class="btn btn-ghost">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/aviralchaturvedi/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2>Background</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Third-year B.Tech Chemical Engineering student at Delhi Technological University (CGPA 9.12).
+        Internship experience in process engineering and reliability modelling at
+        <strong>Reliance Industries</strong>, <strong>GAIL</strong>, and <strong>SMS India</strong>,
+        alongside independent data analytics projects using SQL and Python.
+      </p>
+      <p>
+        At Reliance Industries (Jamnagar), built a predictive maintenance model for a 14-bed PSA hydrogen unit,
+        tracking 126 valves against rated actuation life and forecasting replacement schedules. At SMS India,
+        automated ASME B31.3/B36.10 line-sizing calculations for scrubber process lines and a centrifugal pump.
+        At GAIL's Pata plant, built a regression model on 60 days of DCS data to quantify drivers of furnace efficiency.
+      </p>
+      <p>
+        Outside of internships, I've worked on data analytics projects spanning 3M+ grocery orders to 70K+ hospital
+        records, and led two technical societies at DTU.
+      </p>
+      <div class="about-tags">
+        <span class="tag cyan">Process Engineering</span>
+        <span class="tag cyan">Predictive Maintenance</span>
+        <span class="tag cyan">Reliability Modelling</span>
+        <span class="tag amber">Data Analytics</span>
+        <span class="tag amber">scikit-learn</span>
+        <span class="tag amber">A/B Testing</span>
+        <span class="tag">SQL · Python · C++</span>
+        <span class="tag">DWSIM · AutoCAD</span>
+      </div>
+    </div>
+    <div class="quick-facts">
+      <div class="fact">
+        <div class="fact-icon">🎓</div>
+        <div>
+          <div class="fact-label">Education</div>
+          <div class="fact-val">B.Tech Chemical Engineering, DTU · 2023–2027</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">📍</div>
+        <div>
+          <div class="fact-label">Location</div>
+          <div class="fact-val">New Delhi, India</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🏆</div>
+        <div>
+          <div class="fact-label">Achievement</div>
+          <div class="fact-val">AIR 1 (All India Rank) · CBSE Class X, 99.8%</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🚀</div>
+        <div>
+          <div class="fact-label">NASA Competition</div>
+          <div class="fact-val">Winner, Asian Regional — Space Settlement Design Competition (2021); Finalist, ISSDC</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">📜</div>
+        <div>
+          <div class="fact-label">Certifications</div>
+          <div class="fact-val">SQL Advanced · HackerRank &nbsp;|&nbsp; Product Analytics · Pendo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2>Where I've <span class="dim">worked</span></h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Summer Intern</div>
+          <div class="exp-period">Jun – Jul 2026</div>
+        </div>
+        <div class="exp-company">Reliance Industries Ltd. · Jamnagar (PCG Complex, DTA OGBL)</div>
+        <ul class="exp-bullets">
+          <li>Engineered a <strong>predictive maintenance and reliability model</strong> for a 14-bed PSA hydrogen unit, tracking 126 valves against rated actuation life with a scenario engine that forecasts wear and replacement dates</li>
+          <li>Recalculated replacement schedules dynamically as bed count, cycle time, and load factor change; modelled a steam superheater to surface thermal-efficiency gains</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot amber"></div>
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Process Engineering Intern</div>
+          <div class="exp-period">Dec 2025 – Jan 2026</div>
+        </div>
+        <div class="exp-company">SMS India Pvt. Ltd. · Gurugram</div>
+        <ul class="exp-bullets">
+          <li>Automated <strong>ASME B31.3/B36.10 line-sizing</strong> for 10+ scrubber process lines and a centrifugal pump using first-principles calculations</li>
+          <li>Validated a <strong>5.95 m NPSH safety margin</strong> and specified an 18.5 kW motor, replacing manual computation with a reusable engineering tool</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot amber"></div>
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Summer Training</div>
+          <div class="exp-period">Jun – Jul 2025</div>
+        </div>
+        <div class="exp-company">GAIL · Pata Petrochemical Plant, Uttar Pradesh</div>
+        <ul class="exp-bullets">
+          <li>Built a <strong>multivariable regression model (R² = 0.997)</strong> across 7 process variables on 60 days of DCS data to quantify drivers of furnace efficiency</li>
+          <li>Designed an Excel dashboard of predicted-vs-actual performance; tool sustains <strong>88–97% furnace efficiency</strong> for operating engineers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2>Things I've <span class="dim">built</span></h2>
+
+  <div class="projects-grid">
+
+    <!-- Polymer Extrusion -->
+    <div class="project-card amber-hover" style="cursor:default">
+      <div class="badge-conf">🏛 ICT Mumbai · Feb 2026 · Paper PP-01</div>
+      <div class="project-track amber">Core Engineering</div>
+      <div class="project-title">Polymer Extrusion Energy Optimization</div>
+      <p class="project-desc">
+        Data-driven framework analysing specific energy consumption in single-screw extrusion across 100 datapoints (LDPE + PP), 6 screw geometries. Ridge regression with categorical encoding; constrained SLSQP optimization identifying energy-efficient operating windows.
+      </p>
+      <div class="project-metrics">
+        <span class="metric-pill amber">R² = 0.940</span>
+        <span class="metric-pill amber">39.6% energy reduction</span>
+        <span class="metric-pill amber">$27K/yr savings</span>
+        <span class="metric-pill amber">268 tons CO₂</span>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">scikit-learn</span>
+        <span class="stack-tag">SciPy</span>
+        <span class="stack-tag">Ridge Regression</span>
+        <span class="stack-tag">SLSQP</span>
+      </div>
+      <div class="project-link-row">
+        <a href="https://github.com/avi0chat" target="_blank" rel="noopener" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Heat Exchanger -->
+    <div class="project-card amber-hover" style="cursor:default">
+      <div class="project-track amber">Core Engineering</div>
+      <div class="project-title">Counterflow Heat Exchanger Optimization</div>
+      <p class="project-desc">
+        Python-based NTU-effectiveness modelling and constrained optimization of a counterflow heat exchanger. Dynamic flow-rate and area optimization under a 5 kPa pressure-drop constraint with time-of-use electricity pricing.
+      </p>
+      <div class="project-metrics">
+        <span class="metric-pill amber">&lt;0.001% model error</span>
+        <span class="metric-pill amber">up to 88% cost reduction</span>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">SciPy (SLSQP)</span>
+        <span class="stack-tag">solve_bvp</span>
+        <span class="stack-tag">NTU-effectiveness</span>
+        <span class="stack-tag">NumPy</span>
+      </div>
+      <div class="project-link-row">
+        <a href="https://github.com/avi0chat/Heat-Exchanger-Optimization" target="_blank" rel="noopener" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Readmission -->
+    <div class="project-card" style="cursor:default">
+      <div class="project-track">Data Analytics</div>
+      <div class="project-title">30-Day Hospital Readmission Risk Prediction</div>
+      <p class="project-desc">
+        Risk-stratification pipeline on 70K+ patient records using logistic regression and gradient boosting. SQL analysis layer + Power BI dashboard translating model scores into a $5.9M/year targeting recommendation.
+      </p>
+      <div class="project-metrics">
+        <span class="metric-pill">2.3× lift in top decile</span>
+        <span class="metric-pill">$5.9M/yr impact</span>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Power BI</span>
+        <span class="stack-tag">Gradient Boosting</span>
+      </div>
+      <div class="project-link-row">
+        <a href="https://github.com/avi0chat/readmission-risk-prediction" target="_blank" rel="noopener" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Grocery Reorder -->
+    <div class="project-card" style="cursor:default">
+      <div class="project-track">Data Analytics</div>
+      <div class="project-title">Grocery Reorder &amp; Retention Analysis</div>
+      <p class="project-desc">
+        Analysed 3M+ orders across 200K+ users to map reorder behavior and ordering cadence. Gradient boosting reorder-prediction model with AUC 0.83; power-tested A/B nudge design; Streamlit dashboard for automated reporting.
+      </p>
+      <div class="project-metrics">
+        <span class="metric-pill">AUC 0.83</span>
+        <span class="metric-pill">4.3× lift · top decile</span>
+        <span class="metric-pill">+3pp A/B nudge</span>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Streamlit</span>
+        <span class="stack-tag">DuckDB</span>
+        <span class="stack-tag">A/B Testing</span>
+      </div>
+      <div class="project-link-row">
+        <a href="https://github.com/avi0chat/reorder-retention-analysis" target="_blank" rel="noopener" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">Skills</div>
+  <h2>What I <span class="dim">work with</span></h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title amber">Core Engineering</div>
+      <div class="skill-list">
+        <span class="skill-item">Process optimization</span>
+        <span class="skill-item">Heat &amp; mass transfer</span>
+        <span class="skill-item">Reaction engineering</span>
+        <span class="skill-item">Pipe/pump hydraulics</span>
+        <span class="skill-item">Process safety</span>
+        <span class="skill-item">Reliability &amp; predictive maintenance</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title amber">Simulation &amp; Design</div>
+      <div class="skill-list">
+        <span class="skill-item">DWSIM</span>
+        <span class="skill-item">AutoCAD</span>
+        <span class="skill-item">SciPy (SLSQP, solve_bvp)</span>
+        <span class="skill-item">NTU-effectiveness modelling</span>
+        <span class="skill-item">ASME B31.3/B36.10</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Programming &amp; Data</div>
+      <div class="skill-list">
+        <span class="skill-item">Python</span>
+        <span class="skill-item">SQL</span>
+        <span class="skill-item">C++</span>
+        <span class="skill-item">JavaScript</span>
+        <span class="skill-item">Pandas</span>
+        <span class="skill-item">NumPy</span>
+        <span class="skill-item">scikit-learn</span>
+        <span class="skill-item">SciPy</span>
+        <span class="skill-item">DuckDB</span>
+        <span class="skill-item">Git</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Analytics &amp; BI</div>
+      <div class="skill-list">
+        <span class="skill-item">A/B testing</span>
+        <span class="skill-item">Funnel &amp; cohort analysis</span>
+        <span class="skill-item">User segmentation</span>
+        <span class="skill-item">Hypothesis testing</span>
+        <span class="skill-item">Power BI</span>
+        <span class="skill-item">Streamlit</span>
+        <span class="skill-item">Seaborn</span>
+        <span class="skill-item">Matplotlib</span>
+        <span class="skill-item">Excel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── LEADERSHIP ── -->
+<section id="leadership">
+  <div class="section-label">Leadership</div>
+  <h2>Societies I've <span class="dim">led</span></h2>
+  <div class="leadership-grid">
+    <div class="leadership-card">
+      <div class="leadership-title">President</div>
+      <div class="leadership-org">TATVA-DTU · DTU's Applied Chemistry Society</div>
+      <ul class="leadership-bullets">
+        <li>Directed a 2-day national conference with 500+ attendees, securing ₹1,00,000 in sponsorships across 10+ technical competitions</li>
+        <li>Launched Rasayan, the society's technical magazine — a new platform for student technical writing</li>
+      </ul>
+    </div>
+    <div class="leadership-card">
+      <div class="leadership-title">President</div>
+      <div class="leadership-org">Indian Plastics Institute · DTU Chapter</div>
+      <ul class="leadership-bullets">
+        <li>Led a 20-member council and 150+ student body; organised 10+ events for 500+ participants with ₹50,000+ in sponsorships</li>
+        <li>Coordinated industrial visits for 100+ students; raised participation 40% and cut event delays 30% through automation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── WRITING ── -->
+<section id="writing">
+  <div class="section-label">Writing</div>
+  <h2>Long-form <span class="dim">work</span></h2>
+  <a href="writing/The_Search_for_Extraterrestrial_Life.pdf" target="_blank" rel="noopener" class="paper-card">
+    <div class="paper-icon">📄</div>
+    <div>
+      <div class="paper-title">The Search for Extraterrestrial Life: A Review of Scientific Strategies and Future Directions</div>
+      <div class="paper-meta">22-page review · Indian Plastics Institute · 2nd year</div>
+      <div class="paper-desc">
+        A referenced review covering abiogenesis, extremophiles, biosignatures, exoplanet detection methods, the Drake Equation and Fermi Paradox, technosignatures, and the case for silicon-based biochemistry — synthesising 39 sources from astrobiology, planetary science, and SETI research.
+      </div>
+    </div>
+  </a>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ── -->
+<section class="contact-section" id="contact">
+  <div class="section-label" style="justify-content:center; display:flex">Contact</div>
+  <h2 style="margin-bottom:1rem">Let's talk</h2>
+  <p>Open to campus placements, research internships, and MS/PhD conversations. Always happy to discuss process engineering, data analytics, or anything in between.</p>
+  <div class="contact-links">
+    <a href="mailto:aviralchaturvedi_23pe017@dtu.ac.in" class="btn btn-primary">
+      aviralchaturvedi_23pe017@dtu.ac.in
+    </a>
+    <a href="https://www.linkedin.com/in/aviralchaturvedi/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+    <a href="https://github.com/avi0chat" target="_blank" rel="noopener" class="btn btn-ghost">GitHub ↗</a>
+  </div>
+  <p style="margin-top:3rem; font-size:0.8rem; color:#3d4d66">
+    Aviral Chaturvedi · B.Tech Chemical Engineering · Delhi Technological University · 2023–2027
+  </p>
+</section>
+
+</body>
+</html>
